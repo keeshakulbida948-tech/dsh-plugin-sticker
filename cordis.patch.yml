@@ -1,0 +1,6 @@
+# dsh-plugin-sticker bundle patch
+# 挂载表情包插件：dsh 加载 web profile 时注册 list_stickers / send_sticker 工具，
+# AI 聊天时可按情境挑选并发送表情包。
+- insert:
+    - id: sticker
+      name: 'dsh-plugin-sticker'

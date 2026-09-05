@@ -1,0 +1,43 @@
+{
+  "name": "dsh-plugin-sticker",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness 表情包插件：AI 在聊天时根据情境挑选并发送表情包图片（蓝发鱼娘/蓝色大肥鱼系列 109 张），聊天内直接内嵌显示。",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "assets/",
+    "README.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-tool"
+      ],
+      "platform": "web"
+    }
+  },
+  "dependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.6"
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek",
+    "sticker",
+    "emoji",
+    "表情包"
+  ],
+  "license": "MIT"
+}
