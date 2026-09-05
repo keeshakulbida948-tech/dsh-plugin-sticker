@@ -6,8 +6,8 @@
 //   2. list_stickers 工具：AI 按关键词/情绪浏览图库
 //   3. send_sticker 工具：AI 选定后"发送"，图片直接内嵌渲染在对话气泡里（client 端 toolview）
 //
-// 图库目录：默认指向作者本地目录，可通过环境变量 DSH_STICKER_DIR 覆盖。
-// 注意：图片文件不随本仓库分发（体积大），仅索引入库；他人使用需自行准备图库。
+// 图库目录：默认插件内置 stickers/（随仓库分发，开箱即用）；
+// 可用环境变量 DSH_STICKER_DIR 覆盖（自定义图库时指向自己的目录）。
 
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -20,7 +20,8 @@ export const inject = ['tools', 'webServer']
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // ---- 图库配置 ----
-const DEFAULT_STICKER_DIR = 'C:/Users/Administrator/Pictures/做表情包的图片/新建文件夹 (2)'
+// 默认内置图库：<插件目录>/stickers（109 张随仓库分发）；可用 DSH_STICKER_DIR 指向自定义图库
+const DEFAULT_STICKER_DIR = path.join(__dirname, 'stickers')
 const STICKER_DIR = process.env.DSH_STICKER_DIR || DEFAULT_STICKER_DIR
 const INDEX_PATH = path.join(__dirname, 'assets', 'stickers.json')
 
@@ -86,7 +87,10 @@ function describe(sticker) {
 }
 
 export function apply(ctx) {
-  console.log(`[sticker] 表情包插件已加载：${INDEX.length} 张图 @ ${STICKER_DIR}`)
+  const usable = fs.existsSync(STICKER_DIR)
+    ? fs.readdirSync(STICKER_DIR).filter((f) => /^\.(png|jpe?g|webp|gif)$/i.test(f)).length
+    : 0
+  console.log(`[sticker] 表情包插件已加载：${INDEX.length} 张索引，图库目录 ${usable} 张图 @ ${STICKER_DIR}`)
 
   // ---- list_stickers：浏览/搜索图库 ----
   ctx.tools.register(defineTool({
