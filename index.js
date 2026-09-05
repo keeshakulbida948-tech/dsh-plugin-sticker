@@ -88,7 +88,7 @@ function describe(sticker) {
 
 export function apply(ctx) {
   const usable = fs.existsSync(STICKER_DIR)
-    ? fs.readdirSync(STICKER_DIR).filter((f) => /^\.(png|jpe?g|webp|gif)$/i.test(f)).length
+    ? fs.readdirSync(STICKER_DIR).filter((f) => /\.(png|jpe?g|webp|gif)$/i.test(f)).length
     : 0
   console.log(`[sticker] 表情包插件已加载：${INDEX.length} 张索引，图库目录 ${usable} 张图 @ ${STICKER_DIR}`)
 
